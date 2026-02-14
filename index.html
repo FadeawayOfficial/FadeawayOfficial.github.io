@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fadeaway</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Six+Caps&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --red: #CE1141;
+            --red-bright: #CE1141;
+            --black: #0A0A0A;
+            --dark: #111111;
+            --white: #F0EEE9;
+            --gray: #888;
+            --header-height: 480px;
+            --strip-img-width: 340px;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Barlow', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            gap: 0;
+            padding: 18px 28px 0 0;
+            transition: background 0.25s ease, padding 0.25s ease, box-shadow 0.25s ease;
+            border-radius: 0 0 0 8px;
+        }
+
+        nav.scrolled {
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: 10px 20px 10px 16px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+        }
+
+        nav a {
+            font-family: 'Six Caps', sans-serif;
+            font-size: 2.05rem;
+            font-weight: 400;
+            font-synthesis: none;
+            color: var(--white);
+            text-decoration: none;
+            padding: 8px 16px;
+            position: relative;
+            transition: color 0.2s;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 16px;
+            right: 16px;
+            height: 1.5px;
+            background: var(--red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.25s ease;
+        }
+
+        nav a:hover {
+            color: var(--red-bright);
+        }
+
+        nav a:hover::after {
+            transform: scaleX(1);
+        }
+
+        nav a.active {
+            color: var(--red-bright);
+        }
+
+        nav a.active::after {
+            transform: scaleX(1);
+        }
+
+        /* ─── HEADER / HERO ─── */
+        #hero {
+            position: relative;
+            width: 100%;
+            height: var(--header-height);
+            overflow: hidden;
+            background: var(--black);
+        }
+
+        .image-strip-wrapper {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .image-strip {
+            display: flex;
+            gap: 0;
+            height: 100%;
+            width: max-content;
+            will-change: transform;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .strip-img {
+            flex-shrink: 0;
+            width: var(--strip-img-width);
+            height: var(--header-height);
+            object-fit: cover;
+            filter: brightness(0.22) grayscale(0.25) blur(1.2px);
+            display: block;
+            -webkit-user-drag: none;
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .strip-img-placeholder {
+            flex-shrink: 0;
+            width: var(--strip-img-width);
+            height: var(--header-height);
+            background: var(--dark);
+            border-right: 1px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2a2a2a;
+            font-family: 'Six Caps', sans-serif;
+            font-weight: 400;
+            font-synthesis: none;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+            -webkit-user-select: none;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        #hero::before,
+        #hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 180px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        #hero::before {
+            left: 0;
+            background: linear-gradient(to right, var(--black), transparent);
+        }
+        #hero::after {
+            right: 0;
+            background: linear-gradient(to left, var(--black), transparent);
+        }
+
+        .hero-scanlines {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 3px,
+                rgba(180, 0, 0, 0.03) 3px,
+                rgba(180, 0, 0, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .hero-title {
+            font-family: 'Six Caps', sans-serif;
+            font-weight: 400;
+            font-synthesis: none;
+            font-size: clamp(5rem, 10vw, 9rem);
+            color: var(--red);
+            line-height: 1;
+            text-shadow:
+                0 0 60px rgba(200,0,0,0.5),
+                0 0 120px rgba(200,0,0,0.2),
+                2px 2px 0 #000;
+            animation: title-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+            padding-bottom: 1%;
+        }
+
+        @keyframes title-in {
+            from { opacity: 0; transform: translateY(24px) scaleY(0.85); }
+            to   { opacity: 1; transform: translateY(0) scaleY(1); }
+        }
+
+        .hero-tagline {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: clamp(0.75rem, 1.4vw, 1rem);
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--white);
+            opacity: 0.75;
+            animation: tagline-in 0.8s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        @keyframes tagline-in {
+            from { opacity: 0; transform: translateY(10px); }
+            to   { opacity: 0.75; transform: translateY(0); }
+        }
+
+        .hero-border {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--red);
+            z-index: 4;
+        }
+
+        .hero-fade {
+            background: #ffffff;
+            height: 60px;
+            position: relative;
+        }
+
+        .hero-fade::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(206, 17, 65, 0.25) 0%,
+                rgba(206, 17, 65, 0.08) 45%,
+                rgba(206, 17, 65, 0) 100%
+            );
+            pointer-events: none;
+        }
+
+        /* ─── SECTIONS ─── */
+        main {
+            background: #fff;
+            color: #111;
+        }
+
+        section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 64px 32px 80px;
+        }
+
+        .section-label {
+            font-family: 'Six Caps', sans-serif;
+            font-weight: 400;
+            font-synthesis: none;
+            font-size: clamp(2.2rem, 4vw, 3.4rem);
+            color: var(--red);
+            margin-bottom: 28px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-label::after {
+            content: '';
+            display: block;
+            height: 2px;
+            background: var(--red);
+            margin-top: 6px;
+            width: 100%;
+        }
+
+        /* ─── ABOUT ─── */
+        #about {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .shorts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        .short-wrap {
+            position: relative;
+            width: 100%;
+            padding-bottom: 177.78%; /* 9:16 vertical ratio for Shorts */
+            background: #000;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .short-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .about-text p {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #222;
+            font-weight: 300;
+            max-width: 620px;
+        }
+
+        .about-text p + p {
+            margin-top: 18px;
+        }
+
+        .find-us-sub {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #222;
+            font-weight: 300;
+            max-width: 620px;
+            margin-bottom: 32px;
+        }
+
+        /* ─── SOCIAL / FIND US ─── */
+        #find-us {
+            padding-top: 64px;
+            padding-bottom: 100px;
+        }
+
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 18px 22px;
+            border: 1.5px solid #ddd;
+            text-decoration: none;
+            color: #111;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--red);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.25s ease;
+            z-index: 0;
+        }
+
+        .social-link:hover::before {
+            transform: scaleX(1);
+        }
+
+        .social-link:hover {
+            color: #fff;
+            border-color: var(--red);
+        }
+
+        .social-link svg,
+        .social-link span {
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-icon {
+            width: 22px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            background: var(--black);
+            text-align: center;
+            padding: 28px 32px;
+            font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase;
+        }
+
+        .footer-copy {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: #bbb;
+            letter-spacing: 0.18em;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 600px) {
+            :root {
+                --header-height: 420px;
+                --strip-img-width: 200px;
+            }
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: 0;
+                left: 0;
+                padding: 0;
+                justify-content: center;
+                background: transparent;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+                border-bottom: none;
+                border-radius: 0;
+                transition: background 0.25s ease, box-shadow 0.25s ease;
+            }
+
+            nav.scrolled {
+                background: rgba(10,10,10,0.92);
+                backdrop-filter: blur(8px);
+                -webkit-backdrop-filter: blur(8px);
+                padding: 0;
+                box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+            }
+
+            nav a {
+                font-size: 1.25rem;
+                padding: 12px 14px;
+                background: none;
+            }
+
+            .hero-content {
+                padding-top: 0;
+            }
+
+            .hero-tagline {
+                font-size: 0.68rem;
+                letter-spacing: 0.15em;
+                text-align: center;
+                padding: 0 20px;
+                white-space: normal;
+                line-height: 1.7;
+            }
+
+            section {
+                padding: 48px 20px 64px;
+            }
+
+            .shorts-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .social-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .social-link {
+                padding: 16px 20px;
+                white-space: nowrap;
+                overflow: visible;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 400px) {
+            :root {
+                --header-height: 360px;
+                --strip-img-width: 160px;
+            }
+
+            nav a {
+                font-size: 1.05rem;
+                padding: 8px 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV -->
+    <nav>
+        <a href="#about">ABOUT US</a>
+        <a href="#find-us">FIND US ONLINE</a>
+    </nav>
+
+    <!-- HERO / HEADER -->
+    <header id="hero">
+        <div class="image-strip-wrapper">
+            <div class="image-strip" id="imageStrip">
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/1.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/2.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/3.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/4.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/5.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/6.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/7.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/8.png" alt=""></div>
+            </div>
+        </div>
+
+        <div class="hero-scanlines"></div>
+
+        <div class="hero-content">
+            <h1 class="hero-title">FADEAWAY</h1>
+            <p class="hero-tagline">Edits of The Legends &nbsp;·&nbsp; Basketball &nbsp;·&nbsp; Music &nbsp;·&nbsp; Energy</p>
+        </div>
+
+        <div class="hero-border"></div>
+    </header>
+
+    <div class="hero-fade"></div>
+
+    <!-- MAIN CONTENT -->
+    <main>
+
+        <!-- ABOUT -->
+        <section id="about">
+            <h2 class="section-label">ABOUT US</h2>
+            <div class="about-text">
+                <p>We make basketball edits built around the greatest players and moments in the game.
+                By mixing iconic highlights with the right music and clean editing, we turn legendary plays
+                into videos that hit with real energy and nostalgia.</p>
+                <p>This is for people who love basketball, respect the legends, and enjoy seeing the game
+                presented in a creative way.</p>
+            </div>
+            <div class="shorts-grid">
+                <div class="short-wrap">
+                    <iframe src="https://www.youtube.com/embed/-UhBMbGP_jU" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>
+                <div class="short-wrap">
+                    <iframe src="https://www.youtube.com/embed/fyRs_ISsTNg" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>
+                <div class="short-wrap">
+                    <iframe src="https://www.youtube.com/embed/PMh_1DrGWWY" frameborder="0" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+                </div>
+            </div>
+        </section>
+
+        <!-- FIND US ONLINE -->
+        <section id="find-us">
+            <h2 class="section-label">FIND US ONLINE</h2>
+            <p class="find-us-sub">
+                Follow us across every platform to catch the latest edits, drops, and moments as they happen.
+                Wherever you scroll, we're bringing the energy.
+            </p>
+            <div class="social-grid">
+
+                <!-- YouTube -->
+                <a class="social-link" href="https://www.youtube.com/@fadeaway.official" target="_blank" rel="noopener">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/>
+                    </svg>
+                    <span>YouTube</span>
+                </a>
+
+                <!-- Instagram -->
+                <a class="social-link" href="https://www.instagram.com/fadeaway.official" target="_blank" rel="noopener">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12c0-3.2 0-3.6.1-4.8C2.4 3.9 4 2.3 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 0C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1.1 8.3 0 8.7 0 12c0 3.3 0 3.7.1 4.9.2 4.4 2.6 6.8 7 7C8.3 24 8.7 24 12 24c3.3 0 3.7 0 4.9-.1 4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9 0-3.3 0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4 6.2 6.2 0 0 0 0-12.4zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.4 1.4 0 1 0 0 2.8 1.4 1.4 0 0 0 0-2.8z"/>
+                    </svg>
+                    <span>Instagram</span>
+                </a>
+
+                <!-- TikTok -->
+                <a class="social-link" href="https://www.tiktok.com/@fadeaway.official" target="_blank" rel="noopener">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M21.0007 5.32344C19.8791 5.18297 18.8446 4.66996 18.0612 3.86818C17.2778 3.0664 16.793 2.02315 16.6892 0.912109H13.1538V15.9484C13.1302 16.5985 12.858 17.2148 12.3934 17.6717C11.9288 18.1285 11.3068 18.3923 10.6538 18.4105C9.28614 18.4105 8.14229 17.2947 8.14229 15.9221C8.14229 14.2784 9.74152 13.0321 11.3777 13.5368V9.9505C7.77537 9.48881 4.59998 12.2226 4.59998 15.9221C4.59998 19.5253 7.59229 22.0005 10.6446 22.0005C13.9246 22.0005 16.6892 19.2484 16.6892 15.9221V7.96113C18.0368 8.93221 19.6531 9.45484 21.3138 9.45113L21.3138 5.93113C21.2095 5.93113 21.0007 5.93113 21.0007 5.32344Z"/>
+                    </svg>
+                    <span>TikTok</span>
+                </a>
+
+                <!-- Facebook -->
+                <a class="social-link" href="https://www.facebook.com/fadeaway.official" target="_blank" rel="noopener">
+                    <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1C0 18.1 4.4 23.1 10.1 24v-8.4H7.1v-3.5h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9v2.3h3.4l-.5 3.5h-2.8V24C19.6 23.1 24 18.1 24 12.1z"/>
+                    </svg>
+                    <span>Facebook</span>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-copy">
+            &copy; 2026 Fadeaway. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // ─── Prevent dragging ───
+        const heroEl = document.getElementById('hero');
+        if (heroEl) heroEl.addEventListener('dragstart', e => e.preventDefault());
+        const stripEl = document.getElementById('imageStrip');
+        if (stripEl) stripEl.addEventListener('mousedown', e => e.preventDefault());
+
+        // ─── Infinite scroll: truly seamless loop ───
+        (function () {
+            const strip = document.getElementById('imageStrip');
+            if (!strip) return;
+
+            const origItems = Array.from(strip.children);
+
+            // Calculate one set width from the original items using CSS variable
+            // Use offsetWidth after initial render for accuracy
+            const itemWidth = parseInt(getComputedStyle(document.documentElement)
+                .getPropertyValue('--strip-img-width')) || 340;
+            const oneSetWidth = origItems.length * itemWidth;
+
+            // Clone until we have at least 6x viewport width to ensure seamless loop
+            const targetWidth = Math.max(window.innerWidth * 6, oneSetWidth * 4);
+            while (strip.scrollWidth < targetWidth) {
+                origItems.forEach(item => {
+                    strip.appendChild(item.cloneNode(true));
+                });
+            }
+
+            const SPEED = 80;
+            let pos = 0;
+            let lastTime = null;
+
+            function tick(ts) {
+                if (lastTime === null) lastTime = ts;
+                // Cap delta to 50ms to prevent large jumps after tab switch/focus
+                const delta = Math.min((ts - lastTime) / 1000, 0.05);
+                lastTime = ts;
+                pos += SPEED * delta;
+                // Reset position seamlessly once we've scrolled one full set
+                if (pos >= oneSetWidth) pos -= oneSetWidth;
+                strip.style.transform = `translateX(${-pos}px)`;
+                requestAnimationFrame(tick);
+            }
+
+            requestAnimationFrame(tick);
+        })();
+
+        // ─── Nav: dark bg when scrolled past hero ───
+        (function () {
+            const nav = document.querySelector('nav');
+            const hero = document.getElementById('hero');
+            function updateNav() {
+                const heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
+                if (heroBottom <= 0) {
+                    nav.classList.add('scrolled');
+                } else {
+                    nav.classList.remove('scrolled');
+                }
+            }
+            window.addEventListener('scroll', updateNav, { passive: true });
+            window.addEventListener('resize', updateNav);
+            updateNav();
+        })();
+
+        // ─── Active nav link on scroll + click ───
+        (function () {
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            const sections = Array.from(navLinks)
+                .map(a => document.querySelector(a.getAttribute('href')))
+                .filter(Boolean);
+
+            let isScrollingTo = false;
+            let scrollTimer = null;
+
+            function setActive(id) {
+                navLinks.forEach(a => {
+                    if (id && a.getAttribute('href') === '#' + id) {
+                        a.classList.add('active');
+                    } else {
+                        a.classList.remove('active');
+                    }
+                });
+            }
+
+            function updateActive() {
+                // Skip scroll-based updates while programmatic scroll is in progress
+                if (isScrollingTo) return;
+
+                const scrollY = window.scrollY;
+                const windowH = window.innerHeight;
+
+                // If we haven't scrolled past the first section at all, nothing active
+                const firstSection = sections[0];
+                if (!firstSection || scrollY + windowH < firstSection.offsetTop + 100) {
+                    setActive(null);
+                    return;
+                }
+
+                // Find which section top is closest above the 30% viewport mark
+                let activeId = null;
+                const threshold = scrollY + windowH * 0.3;
+
+                sections.forEach(section => {
+                    if (section.offsetTop <= threshold) {
+                        activeId = section.id;
+                    }
+                });
+
+                setActive(activeId);
+            }
+
+            window.addEventListener('scroll', updateActive, { passive: true });
+            window.addEventListener('resize', updateActive);
+            updateActive();
+
+            // Nav click: lock active state during smooth scroll
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').slice(1);
+                    setActive(targetId);
+
+                    isScrollingTo = true;
+                    clearTimeout(scrollTimer);
+
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        const top = target.getBoundingClientRect().top + window.scrollY - 20;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                    }
+
+                    // Unlock after scroll animation finishes (~700ms)
+                    scrollTimer = setTimeout(() => {
+                        isScrollingTo = false;
+                        updateActive();
+                    }, 700);
+                });
+            });
+        })();
+    </script>
+
+</body>
+</html>
