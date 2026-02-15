@@ -30,6 +30,7 @@
 
         :root {
             --red: #CE1141;
+            --red2:#ee1d51;
             --black: #0A0A0A;
             --dark: #111111;
             --white: #F0EEE9;
@@ -52,7 +53,6 @@
 
         main { flex: 1; }
 
-        /* ─── NEW VIDEO BANNER ─── */
         #new-video-banner {
             background: var(--red);
             color: #fff;
@@ -103,15 +103,14 @@
             transform: translateY(-50%);
             background: none;
             border: none;
-            color: rgba(255,255,255,0.75);
+            color: #fff;
             font-size: 1rem;
             cursor: pointer;
             padding: 4px 8px;
             transition: color 0.2s;
         }
-        .banner-close:hover { color: #fff; }
+        .banner-close:hover { color: rgba(255,255,255,0.75); }
 
-        /* ─── SITE NAV ─── */
         #site-nav {
             position: sticky;
             top: 0;
@@ -182,7 +181,6 @@
             }
         }
 
-        /* ─── HERO ─── */
         #hero {
             position: relative;
             width: 100%;
@@ -296,7 +294,6 @@
             z-index: 4;
         }
 
-        /* ─── HERO FADE ─── */
         .hero-fade { background: #fff; height: 60px; position: relative; }
         .hero-fade::before {
             content: '';
@@ -306,7 +303,6 @@
             pointer-events: none;
         }
 
-        /* ─── MAIN ─── */
         main { background: #fff; color: #111; }
 
         section { max-width: 860px; margin: 0 auto; padding: 64px 32px 80px; }
@@ -329,7 +325,6 @@
             width: 100%;
         }
 
-        /* ─── SECTION LABEL DARK VARIANT ─── */
         .section-label--dark {
             color: #111;
         }
@@ -337,19 +332,13 @@
             display: none;
         }
 
-        /* ─── SCROLL REVEAL ─── */
         .reveal {
             opacity: 0;
             transform: translateY(28px);
             transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
         }
         .reveal.visible { opacity: 1; transform: translateY(0); }
-        .reveal-delay-1 { transition-delay: 0.08s; }
-        .reveal-delay-2 { transition-delay: 0.16s; }
-        .reveal-delay-3 { transition-delay: 0.24s; }
-        .reveal-delay-4 { transition-delay: 0.32s; }
 
-        /* ─── ABOUT ─── */
         #about { border-bottom: 1px solid #e0e0e0; }
 
         .shorts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 40px; }
@@ -360,19 +349,16 @@
         .about-text p { font-size: 1.05rem; line-height: 1.75; color: #222; font-weight: 300; max-width: 620px; }
         .about-text p + p { margin-top: 18px; }
 
-        /* ─── FIND US ─── */
         #find-us { padding-top: 64px; padding-bottom: 60px; border-bottom: 1px solid #e0e0e0; }
 
         .find-us-sub { font-size: 1.05rem; line-height: 1.75; color: #222; font-weight: 300; max-width: 620px; margin-bottom: 36px; }
 
-        /* ─── STATS ─── */
         .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid #e0e0e0; margin-bottom: 40px; }
         .stat-item { padding: 24px 20px; text-align: center; border-right: 1.5px solid #e0e0e0; }
         .stat-item:last-child { border-right: none; }
         .stat-number { font-family: 'Six Caps', sans-serif; font-weight: 400; font-synthesis: none; font-size: clamp(2rem, 4vw, 2.8rem); color: var(--red); line-height: 1; display: block; }
-        .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #888; display: block; margin-top: 6px; }
+        .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #555; display: block; margin-top: 6px; }
 
-        /* ─── LATEST DROP ─── */
         .latest-drop { display: flex; align-items: center; gap: 20px; background: var(--black); border-left: 3px solid var(--red); padding: 20px 24px; margin-bottom: 40px; text-decoration: none; color: var(--white); position: relative; overflow: hidden; }
         .latest-drop::before { content: ''; position: absolute; inset: 0; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; z-index: 0; }
         .latest-drop:hover::before { transform: scaleX(1); }
@@ -385,7 +371,6 @@
         .latest-drop-arrow { margin-left: auto; font-size: 1.3rem; opacity: 0.5; flex-shrink: 0; transition: transform 0.2s, opacity 0.2s; }
         .latest-drop:hover .latest-drop-arrow { transform: translateX(5px); opacity: 1; }
 
-        /* ─── SOCIAL GRID ─── */
         .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 0; }
         .social-link { display: flex; align-items: center; gap: 14px; padding: 18px 22px; border: 1.5px solid #ddd; text-decoration: none; color: #111; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s; position: relative; overflow: hidden; }
         .social-link::before { content: ''; position: absolute; inset: 0; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.25s; z-index: 0; }
@@ -394,7 +379,6 @@
         .social-link svg, .social-link span { position: relative; z-index: 1; }
         .social-icon { width: 22px; height: 22px; flex-shrink: 0; }
 
-        /* ─── COLLAB ─── */
         #collab { padding-top: 64px; padding-bottom: 80px; }
 
         .collab-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
@@ -416,12 +400,22 @@
 
         .collab-success { display: none; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-top: 4px; }
 
-        /* ─── LATEST DROPS — DARK FULL WIDTH ─── */
         .drops-grid {
             display: flex;
             flex-direction: column;
             margin-top: 0;
         }
+
+        .drop-card-reveal {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .drop-card-reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
 
         .drop-card {
             display: grid;
@@ -434,12 +428,11 @@
             transition: background 0.25s;
         }
 
-        .drop-card:first-child { border-top: 1px solid #1e1e1e; }
+        .drops-grid .drop-card-reveal:first-child .drop-card { border-top: 1px solid #1e1e1e; }
         .drop-card:hover { background: #161616; }
         .drop-card:hover .drop-card-thumb img { transform: scale(1.03); }
         .drop-card:hover .drop-card-num { color: #fff; }
 
-        /* IMAGE SIDE */
         .drop-card-thumb {
             position: relative;
             overflow: hidden;
@@ -454,7 +447,6 @@
             transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
         }
 
-        /* subtle right fade into dark bg */
         .drop-card-thumb::after {
             content: '';
             position: absolute;
@@ -466,7 +458,6 @@
             background: linear-gradient(to right, transparent 70%, #161616 100%);
         }
 
-        /* play button */
         .drop-card-play {
             position: absolute;
             top: 50%;
@@ -493,7 +484,6 @@
             margin-left: 2px;
         }
 
-        /* INFO SIDE */
         .drop-card-info {
             display: flex;
             flex-direction: column;
@@ -504,11 +494,11 @@
 
         .drop-card-num {
             font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.68rem;
+            font-size: 0.78rem;
             font-weight: 700;
             letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: var(--red);
+            color: var(--red2);
             transition: color 0.2s;
         }
 
@@ -527,7 +517,7 @@
             font-weight: 600;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: rgba(240,238,233,0.35);
+            color: rgba(240,238,233,0.55);
         }
 
         @media (max-width: 640px) {
@@ -536,11 +526,9 @@
             .drop-card-info { padding: 16px 20px 20px; }
         }
 
-        /* ─── FOOTER ─── */
         footer { background: var(--black); text-align: center; padding: 28px 32px; font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
         .footer-copy { display: inline-flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #bbb; letter-spacing: 0.18em; }
 
-        /* ─── RESPONSIVE ─── */
 
         @media (max-width: 600px) {
             :root { --header-height: 420px; --strip-img-width: 200px; }
@@ -564,14 +552,12 @@
 </head>
 <body>
 
-    <!-- NEW VIDEO BANNER -->
     <div id="new-video-banner">
         <span class="banner-pulse"></span>
         <span>New video just dropped &nbsp;—&nbsp; <a href="https://www.youtube.com/@fadeaway.official" target="_blank" rel="noopener">Watch now on YouTube ↗</a></span>
         <button class="banner-close" id="bannerClose" aria-label="Close">✕</button>
     </div>
 
-    <!-- SITE NAV -->
     <nav id="site-nav" role="navigation" aria-label="Main navigation">
         <ul class="nav-links">
             <li><a href="#about" data-section="about">About Us</a></li>
@@ -579,7 +565,6 @@
         </ul>
     </nav>
 
-    <!-- HERO -->
     <header id="hero">
         <div class="image-strip-wrapper">
             <div class="image-strip" id="imageStrip">
@@ -608,7 +593,6 @@
 
     <main>
 
-        <!-- ABOUT -->
         <section id="about">
             <h2 class="section-label reveal">ABOUT US</h2>
             <div class="about-text">
@@ -628,7 +612,6 @@
             </div>
         </section>
 
-        <!-- FIND US ONLINE -->
         <section id="find-us">
             <h2 class="section-label reveal">FIND US ONLINE</h2>
             <p class="find-us-sub reveal reveal-delay-1">Follow us across every platform to catch the latest edits, drops, and moments as they happen. Wherever you scroll, we're bringing the energy.</p>
@@ -648,7 +631,7 @@
                 </div>
             </div>
 
-            <a class="latest-drop reveal reveal-delay-3" href="https://www.youtube.com/@fadeaway.official" target="_blank" rel="noopener">
+            <a class="latest-drop reveal" href="https://www.youtube.com/@fadeaway.official" target="_blank" rel="noopener">
                 <span class="latest-drop-badge">New Drop</span>
                 <div class="latest-drop-text">
                     <span class="latest-drop-label">Latest Video</span>
@@ -657,44 +640,49 @@
                 <span class="latest-drop-arrow">↗</span>
             </a>
 
-            <!-- LATEST DROPS -->
             <div class="drops-grid">
 
-                <a class="drop-card reveal reveal-delay-1" href="https://youtu.be/blqnwqWtacM" target="_blank" rel="noopener">
-                    <div class="drop-card-thumb">
-                        <img src="images/latestdrops1.png" alt="Next Level">
-                        <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                    </div>
-                    <div class="drop-card-info">
-                        <span class="drop-card-num">#01</span>
-                        <span class="drop-card-title">SOLO EDITS COMPILATION PT. 4</span>
-                        <span class="drop-card-meta">Victor Wembanyama · Fadeaway</span>
-                    </div>
-                </a>
+                <div class="drop-card-reveal">
+                    <a class="drop-card" href="https://youtu.be/blqnwqWtacM" target="_blank" rel="noopener">
+                        <div class="drop-card-thumb">
+                            <img src="images/latestdrops1.png" alt="Next Level">
+                            <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                        </div>
+                        <div class="drop-card-info">
+                            <span class="drop-card-num">#01</span>
+                            <span class="drop-card-title">SOLO EDITS COMPILATION PT. 4</span>
+                            <span class="drop-card-meta">Victor Wembanyama · Fadeaway</span>
+                        </div>
+                    </a>
+                </div>
 
-                <a class="drop-card reveal reveal-delay-2" href="https://youtu.be/31G669Uvi5E" target="_blank" rel="noopener">
-                    <div class="drop-card-thumb">
-                        <img src="images/latestdrops2.png" alt="Built Different">
-                        <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                    </div>
-                    <div class="drop-card-info">
-                        <span class="drop-card-num">#02</span>
-                        <span class="drop-card-title">MICHAEL JORDAN EDITS COMPILATION PT. 1</span>
-                        <span class="drop-card-meta">Michael Jordan · Fadeaway</span>
-                    </div>
-                </a>
+                <div class="drop-card-reveal">
+                    <a class="drop-card" href="https://youtu.be/31G669Uvi5E" target="_blank" rel="noopener">
+                        <div class="drop-card-thumb">
+                            <img src="images/latestdrops2.png" alt="Built Different">
+                            <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                        </div>
+                        <div class="drop-card-info">
+                            <span class="drop-card-num">#02</span>
+                            <span class="drop-card-title">MICHAEL JORDAN EDITS COMPILATION PT. 1</span>
+                            <span class="drop-card-meta">Michael Jordan · Fadeaway</span>
+                        </div>
+                    </a>
+                </div>
 
-                <a class="drop-card reveal reveal-delay-3" href="https://youtu.be/maBTbNSwSxY" target="_blank" rel="noopener">
-                    <div class="drop-card-thumb">
-                        <img src="images/latestdrops3.png" alt="Prime vs Now">
-                        <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
-                    </div>
-                    <div class="drop-card-info">
-                        <span class="drop-card-num">#03</span>
-                        <span class="drop-card-title">LEBRON JAMES EDITS COMPILATION PT. 1</span>
-                        <span class="drop-card-meta">LeBron James · Fadeaway</span>
-                    </div>
-                </a>
+                <div class="drop-card-reveal">
+                    <a class="drop-card" href="https://youtu.be/maBTbNSwSxY" target="_blank" rel="noopener">
+                        <div class="drop-card-thumb">
+                            <img src="images/latestdrops3.png" alt="Prime vs Now">
+                            <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                        </div>
+                        <div class="drop-card-info">
+                            <span class="drop-card-num">#03</span>
+                            <span class="drop-card-title">LEBRON JAMES EDITS COMPILATION PT. 1</span>
+                            <span class="drop-card-meta">LeBron James · Fadeaway</span>
+                        </div>
+                    </a>
+                </div>
 
             </div>
 
@@ -725,13 +713,14 @@
     </footer>
 
     <script>
-        // ─── Prevent dragging ───
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        window.scrollTo(0, 0);
+
         const heroEl = document.getElementById('hero');
         if (heroEl) heroEl.addEventListener('dragstart', e => e.preventDefault());
         const stripEl = document.getElementById('imageStrip');
         if (stripEl) stripEl.addEventListener('mousedown', e => e.preventDefault());
 
-        // ─── Banner close ───
         (function () {
             const btn = document.getElementById('bannerClose');
             const banner = document.getElementById('new-video-banner');
@@ -745,7 +734,6 @@
             });
         })();
 
-        // ─── Infinite scroll strip ───
         (function () {
             const strip = document.getElementById('imageStrip');
             if (!strip) return;
@@ -770,22 +758,45 @@
             requestAnimationFrame(tick);
         })();
 
-        // ─── Scroll reveal ───
         (function () {
-            const els = document.querySelectorAll('.reveal');
-            if (!els.length) return;
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target);
-                    }
+            const allEls = Array.from(document.querySelectorAll('.reveal, .drop-card-reveal'));
+            if (!allEls.length) return;
+
+            const revealed = new Set();
+            let pending = false;
+
+            function revealInView() {
+                pending = false;
+                const viewBottom = window.scrollY + window.innerHeight - 60;
+
+                const inView = allEls
+                    .filter(el => !revealed.has(el))
+                    .filter(el => {
+                        const top = el.getBoundingClientRect().top + window.scrollY;
+                        return top < viewBottom;
+                    })
+                    .sort((a, b) => {
+                        const aTop = a.getBoundingClientRect().top + window.scrollY;
+                        const bTop = b.getBoundingClientRect().top + window.scrollY;
+                        return aTop - bTop;
+                    });
+
+                inView.forEach((el, i) => {
+                    revealed.add(el);
+                    setTimeout(() => el.classList.add('visible'), i * 120);
                 });
-            }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-            els.forEach(el => observer.observe(el));
+            }
+
+            window.addEventListener('scroll', () => {
+                if (!pending) {
+                    pending = true;
+                    requestAnimationFrame(revealInView);
+                }
+            }, { passive: true });
+
+            revealInView();
         })();
 
-        // ─── Nav: scroll-spy + smooth click ───
         (function () {
             const nav      = document.getElementById('site-nav');
             const links    = document.querySelectorAll('[data-section]');
