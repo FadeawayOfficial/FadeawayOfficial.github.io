@@ -111,6 +111,77 @@
         }
         .banner-close:hover { color: #fff; }
 
+        /* ─── SITE NAV ─── */
+        #site-nav {
+            position: sticky;
+            top: 0;
+            z-index: 150;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 32px;
+            padding: 0 44px;
+            height: 48px;
+            background: transparent;
+            transition: background 0.35s ease;
+        }
+
+        #site-nav.scrolled {
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links li a {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--white);
+            text-decoration: none;
+            white-space: nowrap;
+            transition: color 0.25s ease;
+        }
+
+        .nav-links li a.active { color: var(--red); }
+
+        @media (max-width: 720px) {
+            #site-nav {
+                justify-content: center;
+                gap: 0;
+                padding: 0;
+                height: 44px;
+            }
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+                gap: 0;
+            }
+            .nav-links li {
+                flex: 1;
+                display: flex;
+                justify-content: center;
+            }
+            .nav-links li + li {
+                border-left: 1px solid rgba(240,238,233,0.08);
+            }
+            .nav-links li a {
+                display: block;
+                width: 100%;
+                text-align: center;
+                padding: 12px 0;
+                font-size: 0.7rem;
+            }
+        }
+
         /* ─── HERO ─── */
         #hero {
             position: relative;
@@ -217,50 +288,6 @@
             max-width: 720px;
         }
 
-        @keyframes tagline-in {
-            from { opacity: 0; transform: translateY(10px); }
-            to   { opacity: 0.75; transform: translateY(0); }
-        }
-
-        /* ─── MOBILE QUICK LINKS ─── */
-        .hero-quick-links {
-            position: absolute;
-            bottom: 28px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 4;
-            display: none;
-            gap: 8px;
-        }
-
-        .hero-quick-link {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: var(--white);
-            text-decoration: none;
-            padding: 9px 16px;
-            border: 1.5px solid rgba(255,255,255,0.25);
-            background: rgba(10,10,10,0.55);
-            backdrop-filter: blur(6px);
-            -webkit-backdrop-filter: blur(6px);
-            transition: background 0.2s, border-color 0.2s;
-            white-space: nowrap;
-        }
-
-        .hero-quick-link.primary {
-            background: var(--red);
-            border-color: var(--red);
-        }
-
-        .hero-quick-link:hover {
-            background: var(--red);
-            border-color: var(--red);
-            color: #fff;
-        }
-
         .hero-border {
             position: absolute;
             bottom: 0; left: 0; right: 0;
@@ -300,6 +327,14 @@
             background: var(--red);
             margin-top: 6px;
             width: 100%;
+        }
+
+        /* ─── SECTION LABEL DARK VARIANT ─── */
+        .section-label--dark {
+            color: #111;
+        }
+        .section-label--dark::after {
+            display: none;
         }
 
         /* ─── SCROLL REVEAL ─── */
@@ -351,7 +386,7 @@
         .latest-drop:hover .latest-drop-arrow { transform: translateX(5px); opacity: 1; }
 
         /* ─── SOCIAL GRID ─── */
-        .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 56px; }
+        .social-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; margin-bottom: 0; }
         .social-link { display: flex; align-items: center; gap: 14px; padding: 18px 22px; border: 1.5px solid #ddd; text-decoration: none; color: #111; font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.2s; position: relative; overflow: hidden; }
         .social-link::before { content: ''; position: absolute; inset: 0; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.25s; z-index: 0; }
         .social-link:hover::before { transform: scaleX(1); }
@@ -381,14 +416,134 @@
 
         .collab-success { display: none; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-top: 4px; }
 
+        /* ─── LATEST DROPS — DARK FULL WIDTH ─── */
+        .drops-grid {
+            display: flex;
+            flex-direction: column;
+            margin-top: 0;
+        }
+
+        .drop-card {
+            display: grid;
+            grid-template-columns: 48% 1fr;
+            text-decoration: none;
+            color: var(--white);
+            background: #0f0f0f;
+            border-bottom: 1px solid #1e1e1e;
+            overflow: hidden;
+            transition: background 0.25s;
+        }
+
+        .drop-card:first-child { border-top: 1px solid #1e1e1e; }
+        .drop-card:hover { background: #161616; }
+        .drop-card:hover .drop-card-thumb img { transform: scale(1.03); }
+        .drop-card:hover .drop-card-num { color: #fff; }
+
+        /* IMAGE SIDE */
+        .drop-card-thumb {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 16/9;
+        }
+
+        .drop-card-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
+        }
+
+        /* subtle right fade into dark bg */
+        .drop-card-thumb::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent 70%, #0f0f0f 100%);
+            pointer-events: none;
+        }
+        .drop-card:hover .drop-card-thumb::after {
+            background: linear-gradient(to right, transparent 70%, #161616 100%);
+        }
+
+        /* play button */
+        .drop-card-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 44px;
+            height: 44px;
+            background: rgba(206,17,65,0.88);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .drop-card:hover .drop-card-play {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: var(--red);
+        }
+        .drop-card-play svg {
+            width: 15px;
+            height: 15px;
+            fill: #fff;
+            margin-left: 2px;
+        }
+
+        /* INFO SIDE */
+        .drop-card-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 24px 32px;
+            gap: 8px;
+        }
+
+        .drop-card-num {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--red);
+            transition: color 0.2s;
+        }
+
+        .drop-card-title {
+            font-family: 'Six Caps', sans-serif;
+            font-weight: 400;
+            font-synthesis: none;
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            line-height: 0.95;
+            color: var(--white);
+        }
+
+        .drop-card-meta {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: rgba(240,238,233,0.35);
+        }
+
+        @media (max-width: 640px) {
+            .drop-card { grid-template-columns: 1fr; }
+            .drop-card-thumb::after { background: linear-gradient(to bottom, transparent 70%, #0f0f0f 100%); }
+            .drop-card-info { padding: 16px 20px 20px; }
+        }
+
         /* ─── FOOTER ─── */
         footer { background: var(--black); text-align: center; padding: 28px 32px; font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
         .footer-copy { display: inline-flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #bbb; letter-spacing: 0.18em; }
 
         /* ─── RESPONSIVE ─── */
+
         @media (max-width: 600px) {
             :root { --header-height: 420px; --strip-img-width: 200px; }
-            .hero-quick-links { display: flex; }
             section { padding: 48px 20px 64px; }
             .shorts-grid { grid-template-columns: 1fr; gap: 20px; }
             .stat-item { padding: 18px 10px; }
@@ -416,18 +571,26 @@
         <button class="banner-close" id="bannerClose" aria-label="Close">✕</button>
     </div>
 
+    <!-- SITE NAV -->
+    <nav id="site-nav" role="navigation" aria-label="Main navigation">
+        <ul class="nav-links">
+            <li><a href="#about" data-section="about">About Us</a></li>
+            <li><a href="#find-us" data-section="find-us">Find Us Online</a></li>
+        </ul>
+    </nav>
+
     <!-- HERO -->
     <header id="hero">
         <div class="image-strip-wrapper">
             <div class="image-strip" id="imageStrip">
-                <div class="strip-img-placeholder"><img class="strip-img" src="images/1.png" alt=""></div>
-                <div class="strip-img-placeholder"><img class="strip-img" src="images/2.png" alt=""></div>
-                <div class="strip-img-placeholder"><img class="strip-img" src="images/3.png" alt=""></div>
-                <div class="strip-img-placeholder"><img class="strip-img" src="images/4.png" alt=""></div>
-                <div class="strip-img-placeholder"><img class="strip-img" src="images/5.png" alt=""></div>
-                <div class="strip-img-placeholder"><img class="strip-img" src="images/6.png" alt=""></div>
-                <div class="strip-img-placeholder"><img class="strip-img" src="images/7.png" alt=""></div>
-                <div class="strip-img-placeholder"><img class="strip-img" src="images/8.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/bg1.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/bg2.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/bg3.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/bg4.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/bg5.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/bg6.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/bg7.png" alt=""></div>
+                <div class="strip-img-placeholder"><img class="strip-img" src="images/bg8.png" alt=""></div>
             </div>
         </div>
 
@@ -494,7 +657,48 @@
                 <span class="latest-drop-arrow">↗</span>
             </a>
 
-            <div class="social-grid">
+            <!-- LATEST DROPS -->
+            <div class="drops-grid">
+
+                <a class="drop-card reveal reveal-delay-1" href="https://youtu.be/blqnwqWtacM" target="_blank" rel="noopener">
+                    <div class="drop-card-thumb">
+                        <img src="images/latestdrops1.png" alt="Next Level">
+                        <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                    </div>
+                    <div class="drop-card-info">
+                        <span class="drop-card-num">#01</span>
+                        <span class="drop-card-title">SOLO EDITS COMPILATION PT. 4</span>
+                        <span class="drop-card-meta">Victor Wembanyama · Fadeaway</span>
+                    </div>
+                </a>
+
+                <a class="drop-card reveal reveal-delay-2" href="https://youtu.be/31G669Uvi5E" target="_blank" rel="noopener">
+                    <div class="drop-card-thumb">
+                        <img src="images/latestdrops2.png" alt="Built Different">
+                        <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                    </div>
+                    <div class="drop-card-info">
+                        <span class="drop-card-num">#02</span>
+                        <span class="drop-card-title">MICHAEL JORDAN EDITS COMPILATION PT. 1</span>
+                        <span class="drop-card-meta">Michael Jordan · Fadeaway</span>
+                    </div>
+                </a>
+
+                <a class="drop-card reveal reveal-delay-3" href="https://youtu.be/maBTbNSwSxY" target="_blank" rel="noopener">
+                    <div class="drop-card-thumb">
+                        <img src="images/latestdrops3.png" alt="Prime vs Now">
+                        <div class="drop-card-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+                    </div>
+                    <div class="drop-card-info">
+                        <span class="drop-card-num">#03</span>
+                        <span class="drop-card-title">LEBRON JAMES EDITS COMPILATION PT. 1</span>
+                        <span class="drop-card-meta">LeBron James · Fadeaway</span>
+                    </div>
+                </a>
+
+            </div>
+
+            <div class="social-grid" style="margin-top: 40px;">
                 <a class="social-link reveal reveal-delay-1" href="https://www.youtube.com/@fadeaway.official" target="_blank" rel="noopener">
                     <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8zM9.7 15.5V8.5l6.3 3.5-6.3 3.5z"/></svg>
                     <span>YouTube</span>
@@ -579,6 +783,56 @@
                 });
             }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
             els.forEach(el => observer.observe(el));
+        })();
+
+        // ─── Nav: scroll-spy + smooth click ───
+        (function () {
+            const nav      = document.getElementById('site-nav');
+            const links    = document.querySelectorAll('[data-section]');
+            const sections = ['about', 'find-us'].map(id => document.getElementById(id)).filter(Boolean);
+            const NAV_H    = 48;
+
+            let lockedSection = null;
+            let lockTimer     = null;
+
+            links.forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.getElementById(this.dataset.section);
+                    if (!target) return;
+
+                    lockedSection = this.dataset.section;
+                    clearTimeout(lockTimer);
+
+                    const dist = Math.abs(target.getBoundingClientRect().top);
+                    const duration = Math.min(dist * 0.6, 900);
+                    lockTimer = setTimeout(() => { lockedSection = null; }, duration + 200);
+
+                    setActive(lockedSection);
+
+                    const top = target.getBoundingClientRect().top + window.scrollY - NAV_H - 8;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                });
+            });
+
+            function setActive(id) {
+                links.forEach(link => link.classList.toggle('active', link.dataset.section === id));
+            }
+
+            function updateActive() {
+                nav.classList.toggle('scrolled', window.scrollY > 20);
+
+                if (lockedSection) return;
+
+                let active = null;
+                sections.forEach(sec => {
+                    if (sec.getBoundingClientRect().top <= NAV_H + 24) active = sec.id;
+                });
+                setActive(active);
+            }
+
+            window.addEventListener('scroll', updateActive, { passive: true });
+            updateActive();
         })();
     </script>
 
