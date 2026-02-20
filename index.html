@@ -23,7 +23,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Six+Caps&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
+    <!-- Six Caps ladataan erikseen display=block:lla — ei enää väärää fonttia latauksen aikana -->
+    <link href="https://fonts.googleapis.com/css2?family=Six+Caps&display=block" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400&display=swap" rel="stylesheet">
 
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -49,6 +51,18 @@
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+        }
+
+        /* Piilotetaan Six Caps -elementit kunnes fontti on ladattu */
+        body.fonts-loading .hero-title,
+        body.fonts-loading .section-label,
+        body.fonts-loading .drop-card-title,
+        body.fonts-loading .stat-number,
+        body.fonts-loading .latest-drop-title {
+            visibility: hidden;
+        }
+        body.fonts-loading .hero-title {
+            animation-play-state: paused;
         }
 
         main { flex: 1; }
@@ -325,12 +339,8 @@
             width: 100%;
         }
 
-        .section-label--dark {
-            color: #111;
-        }
-        .section-label--dark::after {
-            display: none;
-        }
+        .section-label--dark { color: #111; }
+        .section-label--dark::after { display: none; }
 
         .reveal {
             opacity: 0;
@@ -353,12 +363,6 @@
 
         .find-us-sub { font-size: 1.05rem; line-height: 1.75; color: #222; font-weight: 300; max-width: 620px; margin-bottom: 36px; }
 
-        .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); border: 1.5px solid #e0e0e0; margin-bottom: 40px; }
-        .stat-item { padding: 24px 20px; text-align: center; border-right: 1.5px solid #e0e0e0; }
-        .stat-item:last-child { border-right: none; }
-        .stat-number { font-family: 'Six Caps', sans-serif; font-weight: 400; font-synthesis: none; font-size: clamp(2rem, 4vw, 2.8rem); color: var(--red); line-height: 1; display: block; }
-        .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: #555; display: block; margin-top: 6px; }
-
         .latest-drop { display: flex; align-items: center; gap: 20px; background: var(--black); border-left: 3px solid var(--red); padding: 20px 24px; margin-bottom: 40px; text-decoration: none; color: var(--white); position: relative; overflow: hidden; }
         .latest-drop::before { content: ''; position: absolute; inset: 0; background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform 0.3s; z-index: 0; }
         .latest-drop:hover::before { transform: scaleX(1); }
@@ -379,43 +383,14 @@
         .social-link svg, .social-link span { position: relative; z-index: 1; }
         .social-icon { width: 22px; height: 22px; flex-shrink: 0; }
 
-        #collab { padding-top: 64px; padding-bottom: 80px; }
-
-        .collab-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
-
-        .collab-text p { font-size: 1.05rem; line-height: 1.75; color: #222; font-weight: 300; margin-bottom: 20px; }
-
-        .collab-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-        .collab-tag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; padding: 6px 14px; border: 1.5px solid #ddd; color: #666; }
-
-        .collab-form { display: flex; flex-direction: column; gap: 12px; }
-
-        .collab-input, .collab-textarea { padding: 13px 16px; border: 1.5px solid #ccc; font-family: 'Barlow', sans-serif; font-size: 0.95rem; font-weight: 300; color: #111; background: #fff; outline: none; transition: border-color 0.2s; width: 100%; resize: none; }
-        .collab-input:focus, .collab-textarea:focus { border-color: var(--red); }
-        .collab-input::placeholder, .collab-textarea::placeholder { color: #aaa; }
-        .collab-textarea { height: 120px; }
-
-        .collab-submit { padding: 14px 24px; background: var(--black); color: var(--white); border: 1.5px solid var(--black); font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, border-color 0.2s; align-self: flex-start; }
-        .collab-submit:hover { background: var(--red); border-color: var(--red); }
-
-        .collab-success { display: none; font-family: 'Barlow Condensed', sans-serif; font-size: 0.9rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--red); margin-top: 4px; }
-
-        .drops-grid {
-            display: flex;
-            flex-direction: column;
-            margin-top: 0;
-        }
+        .drops-grid { display: flex; flex-direction: column; margin-top: 0; }
 
         .drop-card-reveal {
             opacity: 0;
             transform: translateY(28px);
             transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1);
         }
-        .drop-card-reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
+        .drop-card-reveal.visible { opacity: 1; transform: translateY(0); }
 
         .drop-card {
             display: grid;
@@ -433,92 +408,28 @@
         .drop-card:hover .drop-card-thumb img { transform: scale(1.03); }
         .drop-card:hover .drop-card-num { color: #fff; }
 
-        .drop-card-thumb {
-            position: relative;
-            overflow: hidden;
-            aspect-ratio: 16/9;
-        }
-
-        .drop-card-thumb img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform 0.55s cubic-bezier(0.16,1,0.3,1);
-        }
-
-        .drop-card-thumb::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to right, transparent 70%, #0f0f0f 100%);
-            pointer-events: none;
-        }
-        .drop-card:hover .drop-card-thumb::after {
-            background: linear-gradient(to right, transparent 70%, #161616 100%);
-        }
+        .drop-card-thumb { position: relative; overflow: hidden; aspect-ratio: 16/9; }
+        .drop-card-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.55s cubic-bezier(0.16,1,0.3,1); }
+        .drop-card-thumb::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, transparent 70%, #0f0f0f 100%); pointer-events: none; }
+        .drop-card:hover .drop-card-thumb::after { background: linear-gradient(to right, transparent 70%, #161616 100%); }
 
         .drop-card-play {
-            position: absolute;
-            top: 50%;
-            left: 50%;
+            position: absolute; top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 44px;
-            height: 44px;
+            width: 44px; height: 44px;
             background: rgba(206,17,65,0.88);
             border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             z-index: 2;
             transition: transform 0.2s, background 0.2s;
         }
-        .drop-card:hover .drop-card-play {
-            transform: translate(-50%, -50%) scale(1.1);
-            background: var(--red);
-        }
-        .drop-card-play svg {
-            width: 15px;
-            height: 15px;
-            fill: #fff;
-            margin-left: 2px;
-        }
+        .drop-card:hover .drop-card-play { transform: translate(-50%, -50%) scale(1.1); background: var(--red); }
+        .drop-card-play svg { width: 15px; height: 15px; fill: #fff; margin-left: 2px; }
 
-        .drop-card-info {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 24px 32px;
-            gap: 8px;
-        }
-
-        .drop-card-num {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: var(--red2);
-            transition: color 0.2s;
-        }
-
-        .drop-card-title {
-            font-family: 'Six Caps', sans-serif;
-            font-weight: 400;
-            font-synthesis: none;
-            font-size: clamp(1.8rem, 3vw, 2.8rem);
-            line-height: 0.95;
-            color: var(--white);
-        }
-
-        .drop-card-meta {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 0.7rem;
-            font-weight: 600;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            color: rgba(240,238,233,0.55);
-        }
+        .drop-card-info { display: flex; flex-direction: column; justify-content: center; padding: 24px 32px; gap: 8px; }
+        .drop-card-num { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--red2); transition: color 0.2s; }
+        .drop-card-title { font-family: 'Six Caps', sans-serif; font-weight: 400; font-synthesis: none; font-size: clamp(1.8rem, 3vw, 2.8rem); line-height: 0.95; color: var(--white); }
+        .drop-card-meta { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(240,238,233,0.55); }
 
         @media (max-width: 640px) {
             .drop-card { grid-template-columns: 1fr; }
@@ -529,7 +440,6 @@
         footer { background: var(--black); text-align: center; padding: 28px 32px; font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; }
         .footer-copy { display: inline-flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #bbb; letter-spacing: 0.18em; }
 
-
         @media (max-width: 600px) {
             :root { --header-height: 420px; --strip-img-width: 200px; }
             section { padding: 48px 20px 64px; }
@@ -537,10 +447,7 @@
             .stat-item { padding: 18px 10px; }
             .social-grid { grid-template-columns: 1fr; gap: 10px; }
             .social-link { padding: 16px 20px; width: 100%; }
-            .email-form { flex-direction: column; }
-            .email-input { border-right: 1.5px solid #ccc; border-bottom: none; }
             .latest-drop-title { font-size: 1.15rem; }
-            .collab-inner { grid-template-columns: 1fr; gap: 32px; }
             .latest-drop { flex-direction: column; align-items: flex-start; gap: 12px; }
             .latest-drop-arrow { align-self: flex-end; }
         }
@@ -550,7 +457,7 @@
         }
     </style>
 </head>
-<body>
+<body class="fonts-loading">
 
     <div id="new-video-banner">
         <span class="banner-pulse"></span>
@@ -616,22 +523,8 @@
             <h2 class="section-label reveal">FIND US ONLINE</h2>
             <p class="find-us-sub reveal reveal-delay-1">Follow us across every platform to catch the latest edits, drops, and moments as they happen. Wherever you scroll, we're bringing the energy.</p>
 
-            <div class="stats-row reveal reveal-delay-2">
-                <div class="stat-item">
-                    <span class="stat-number">100+</span>
-                    <span class="stat-label">Subscribers</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">120+</span>
-                    <span class="stat-label">Videos</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">4</span>
-                    <span class="stat-label">Platforms</span>
-                </div>
-            </div>
 
-            <a class="latest-drop reveal" href="https://www.youtube.com/@fadeaway.official" target="_blank" rel="noopener">
+<a class="latest-drop reveal" href="https://www.youtube.com/@fadeaway.official" target="_blank" rel="noopener">
                 <span class="latest-drop-badge">New Drop</span>
                 <div class="latest-drop-text">
                     <span class="latest-drop-label">Latest Video</span>
@@ -641,7 +534,6 @@
             </a>
 
             <div class="drops-grid">
-
                 <div class="drop-card-reveal">
                     <a class="drop-card" href="https://youtu.be/blqnwqWtacM" target="_blank" rel="noopener">
                         <div class="drop-card-thumb">
@@ -683,7 +575,6 @@
                         </div>
                     </a>
                 </div>
-
             </div>
 
             <div class="social-grid" style="margin-top: 40px;">
@@ -715,6 +606,17 @@
     <script>
         if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
         window.scrollTo(0, 0);
+
+        // FONTTI-FIX: Odotetaan että Six Caps on ladattu ennen kuin näytetään teksti
+        (function () {
+            function done() { document.body.classList.remove('fonts-loading'); }
+            if (document.fonts && document.fonts.ready) {
+                var t = setTimeout(done, 1500);
+                document.fonts.ready.then(function () { clearTimeout(t); done(); });
+            } else {
+                setTimeout(done, 400);
+            }
+        })();
 
         const heroEl = document.getElementById('hero');
         if (heroEl) heroEl.addEventListener('dragstart', e => e.preventDefault());
@@ -761,87 +663,55 @@
         (function () {
             const allEls = Array.from(document.querySelectorAll('.reveal, .drop-card-reveal'));
             if (!allEls.length) return;
-
             const revealed = new Set();
             let pending = false;
-
             function revealInView() {
                 pending = false;
                 const viewBottom = window.scrollY + window.innerHeight - 60;
-
                 const inView = allEls
                     .filter(el => !revealed.has(el))
-                    .filter(el => {
-                        const top = el.getBoundingClientRect().top + window.scrollY;
-                        return top < viewBottom;
-                    })
-                    .sort((a, b) => {
-                        const aTop = a.getBoundingClientRect().top + window.scrollY;
-                        const bTop = b.getBoundingClientRect().top + window.scrollY;
-                        return aTop - bTop;
-                    });
-
+                    .filter(el => el.getBoundingClientRect().top + window.scrollY < viewBottom)
+                    .sort((a, b) => (a.getBoundingClientRect().top + window.scrollY) - (b.getBoundingClientRect().top + window.scrollY));
                 inView.forEach((el, i) => {
                     revealed.add(el);
                     setTimeout(() => el.classList.add('visible'), i * 120);
                 });
             }
-
             window.addEventListener('scroll', () => {
-                if (!pending) {
-                    pending = true;
-                    requestAnimationFrame(revealInView);
-                }
+                if (!pending) { pending = true; requestAnimationFrame(revealInView); }
             }, { passive: true });
-
             revealInView();
         })();
 
         (function () {
-            const nav      = document.getElementById('site-nav');
-            const links    = document.querySelectorAll('[data-section]');
+            const nav = document.getElementById('site-nav');
+            const links = document.querySelectorAll('[data-section]');
             const sections = ['about', 'find-us'].map(id => document.getElementById(id)).filter(Boolean);
-            const NAV_H    = 48;
-
-            let lockedSection = null;
-            let lockTimer     = null;
-
+            const NAV_H = 48;
+            let lockedSection = null, lockTimer = null;
             links.forEach(link => {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const target = document.getElementById(this.dataset.section);
                     if (!target) return;
-
                     lockedSection = this.dataset.section;
                     clearTimeout(lockTimer);
-
-                    const dist = Math.abs(target.getBoundingClientRect().top);
-                    const duration = Math.min(dist * 0.6, 900);
+                    const duration = Math.min(Math.abs(target.getBoundingClientRect().top) * 0.6, 900);
                     lockTimer = setTimeout(() => { lockedSection = null; }, duration + 200);
-
                     setActive(lockedSection);
-
-                    const top = target.getBoundingClientRect().top + window.scrollY - NAV_H - 8;
-                    window.scrollTo({ top, behavior: 'smooth' });
+                    window.scrollTo({ top: target.getBoundingClientRect().top + window.scrollY - NAV_H - 8, behavior: 'smooth' });
                 });
             });
-
             function setActive(id) {
                 links.forEach(link => link.classList.toggle('active', link.dataset.section === id));
             }
-
             function updateActive() {
                 nav.classList.toggle('scrolled', window.scrollY > 20);
-
                 if (lockedSection) return;
-
                 let active = null;
-                sections.forEach(sec => {
-                    if (sec.getBoundingClientRect().top <= NAV_H + 24) active = sec.id;
-                });
+                sections.forEach(sec => { if (sec.getBoundingClientRect().top <= NAV_H + 24) active = sec.id; });
                 setActive(active);
             }
-
             window.addEventListener('scroll', updateActive, { passive: true });
             updateActive();
         })();
